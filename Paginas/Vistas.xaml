@@ -1,0 +1,183 @@
+﻿<Page x:Class="MovieAppMySQL.Vistas"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MovieAppMySQL"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Vistas">
+
+    <Page.Resources>
+        <local:StarConverter x:Key="StarConverter" />
+    </Page.Resources>
+
+
+
+
+
+
+
+
+
+    <Grid Background="AntiqueWhite">
+
+       
+
+        <StackPanel Orientation="Horizontal" Margin="270,10,270,0" Height="50" VerticalAlignment="Top" HorizontalAlignment="Center" Width="auto">
+            <ComboBox x:Name="CategoryComboBox" Style="{StaticResource ComboBox}" Margin="5,0" Width="120" Height="40"  Padding="0,0" VerticalAlignment="Center"  
+                      HorizontalContentAlignment="Center" HorizontalAlignment="Center" SelectionChanged="Category_SelectionChanged" SelectedItem="Movie">
+                <ComboBoxItem Content="Movie"/>
+                <ComboBoxItem Content="TVshow"/>
+                <ComboBoxItem Content="Game"/>
+                <ComboBoxItem Content="Book"/>
+            </ComboBox>
+
+            <ComboBox x:Name="RegionComboBox" Style="{StaticResource ComboBox}" Margin="5,0" Width="120" Height="40"  Padding="0,0" VerticalAlignment="Center"  HorizontalContentAlignment="Center" HorizontalAlignment="Center" SelectionChanged="Region_SelectionChanged">
+                <ComboBoxItem Content="US"/>
+                <ComboBoxItem Content="JP"/>
+                <ComboBoxItem Content="GB"/>
+                <ComboBoxItem Content="FR"/>
+                <ComboBoxItem Content="ES"/>
+            </ComboBox>
+        </StackPanel>
+
+
+        <!-- ListBox to display the movies -->
+        <ListBox x:Name="SavedMoviesListBox" Margin="0,141,0,45" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" Width="auto"
+         ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Hidden" Padding="30,5,8,5" 
+         ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" 
+         Visibility="Visible">
+            
+            <ListBox.Background>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                        <GeometryDrawing Brush="BurlyWood" Geometry="M 0,0 L 0,10 L 300,10 L 300,0 Z"/>
+                        <GeometryDrawing Brush="Tan" Geometry="M 0,20 L 0,30 L 300,30 L 300,20 Z"/>
+                        <GeometryDrawing Brush="BurlyWood" Geometry="M 0,40 L 0,50 L 300,50 L 300,40 Z"/>
+                        <!-- Puedes agregar más líneas para simular estantes -->
+                     </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </ListBox.Background>
+
+
+
+            <!-- Use WrapPanel for matrix-style layout -->
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel ItemWidth="600" ItemHeight="500" HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- borde para cada item -->
+                    <Border Margin="5" CornerRadius="10" Background="#50F0F8FF" HorizontalAlignment="Center" Width="550">
+                        <Border.Effect>
+                            <StaticResource ResourceKey="BorderShadowEffect"/>
+                        </Border.Effect>
+                        <Grid Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Movie Poster -->
+                            <Border Width="300" Height="450" CornerRadius="20" HorizontalAlignment="Center" Background="#60000000">
+                                <Border.Clip>
+                                    <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,300,450"/>
+                                </Border.Clip>
+                                <Image Source="{Binding PosterUrl}" Stretch="Uniform" />
+                            </Border>
+
+                            <!-- Movie Title and Description -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0" MaxWidth="350" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontWeight="Bold" FontSize="18" MaxWidth="250" HorizontalAlignment="Left" Margin="0,0,0,10" />
+
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="100"  HorizontalScrollBarVisibility="Disabled">
+                                    <ScrollViewer.Resources>
+                                        <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}" />
+                                    </ScrollViewer.Resources>
+
+                                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14"/>
+
+                                </ScrollViewer>
+
+                                <TextBlock Text="{Binding Providers, StringFormat='Platforms: {0}'}"
+                       TextWrapping="Wrap" MaxHeight="200" MaxWidth="250" FontWeight="Bold" HorizontalAlignment="left" Margin="0,0,0,10" FontSize="14"/>
+                                <TextBlock Text="{Binding BaseRating, StringFormat='Rating: {0:F1}/10'}" MaxHeight="200" HorizontalAlignment="Left" Margin="0,0,0,10" MaxWidth="250" FontSize="14"/>
+                                <TextBlock Text="{Binding Fecha}" MaxHeight="200" HorizontalAlignment="Left" Margin="0,0,0,10" MaxWidth="250" FontSize="14"/>
+                                <TextBlock Text="{Binding Temporadas}" MaxHeight="200" HorizontalAlignment="Left" Margin="0,0,0,10" MaxWidth="250" FontSize="14"/>
+
+
+
+
+                                <!-- Star Rating System (5 Stars) -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,5,0,0">
+
+                                <TextBlock Text="Score=" TextWrapping="Wrap" Width="auto" Height="auto" Margin="2" Foreground="Gray"/>
+                                <!-- Full Star 1 -->
+                                <Button Width="auto" Height="auto" Margin="2" Background="Transparent" BorderBrush="Transparent"
+        Click="Star_Click" Tag="1"  Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=1}">
+                                    <Path Data="M12,0 L15,8 L24,8 L17,12 L19,20 L12,15 L5,20 L7,12 L0,8 L9,8 Z"
+    Fill="Gold" Width="20" Height="20" Margin="2"
+    Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=1}" />
+                                </Button>
+                                <!-- Full Star 2 -->
+                                <Button Width="auto" Height="auto" Margin="2" Background="Transparent" BorderBrush="Transparent"
+        Click="Star_Click" Tag="2"  Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=2}">
+                                    <Path Data="M12,0 L15,8 L24,8 L17,12 L19,20 L12,15 L5,20 L7,12 L0,8 L9,8 Z"
+   Fill="Gold" Width="20" Height="20" Margin="2"
+Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=2}" />
+                                </Button>
+                                <Button Width="auto" Height="auto" Margin="2" Background="Transparent" BorderBrush="Transparent"
+        Click="Star_Click" Tag="3" Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=3}">
+                                    <!-- Full Star 3 -->
+                                    <Path Data="M12,0 L15,8 L24,8 L17,12 L19,20 L12,15 L5,20 L7,12 L0,8 L9,8 Z"
+       Fill="Gold" Width="20" Height="20" Margin="2"
+       Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=3}" />
+                                </Button>
+                                <Button Width="auto" Height="auto" Margin="2" Background="Transparent" BorderBrush="Transparent"
+        Click="Star_Click" Tag="4" Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=4}">
+                                    <!-- Full Star 4 -->
+                                    <Path Data="M12,0 L15,8 L24,8 L17,12 L19,20 L12,15 L5,20 L7,12 L0,8 L9,8 Z"
+        Fill="Gold" Width="20" Height="20" Margin="2"
+       Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=4}" />
+                                </Button>
+
+                                <Button Width="auto" Height="auto" Margin="2" Background="Transparent" BorderBrush="Transparent"
+        Click="Star_Click" Tag="5" Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=5}">
+                                    <!-- Full Star 5 -->
+                                    <Path Data="M12,0 L15,8 L24,8 L17,12 L19,20 L12,15 L5,20 L7,12 L0,8 L9,8 Z"
+       Fill="Gold" Width="20" Height="20" Margin="2"
+      Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=5}" />
+                                </Button>
+                                <Button Width="auto" Height="auto" Margin="2" Background="Transparent" BorderBrush="Transparent"
+        Click="Star_Click" Tag="6">
+                                    <!-- Half Star  (Visible for fractional values like 3.5, 4.5, etc.) -->
+                                    <Path Data="M12,0 L15,8 L24,8 L17,12 L19,20 L12,15 L5,20 L7,12 L0,8 L9,8 Z"
+           Fill="Gold" Width="10" Height="20" Margin="2"
+       Visibility="{Binding Puntuacion, Converter={StaticResource StarConverter}, ConverterParameter=6}" />
+                                </Button>
+
+                            </StackPanel>
+
+
+
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Page>
+
+
+
+
+
+

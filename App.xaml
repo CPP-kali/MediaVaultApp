@@ -1,0 +1,253 @@
+﻿<Application x:Class="MovieAppMySQL.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MovieAppMySQL"
+             >
+    <Application.Resources>
+
+        <!-- Define the LinearGradientBrush as a resource -->
+        <LinearGradientBrush x:Key="PageBackgroundBrush" StartPoint="0,0" EndPoint="0.5,2">
+            <GradientStop Color="SkyBlue" Offset="0" />
+            <GradientStop Color="MediumPurple" Offset="1" />
+        </LinearGradientBrush>
+
+        
+        
+
+        <!-- Define the Shadow Effect as a resource -->
+        <DropShadowEffect x:Key="BorderShadowEffect" Color="Gray" Direction="315" BlurRadius="10" ShadowDepth="5"/>
+        <DropShadowEffect x:Key="BorderShadowEffect2" Color="LightGoldenrodYellow" Direction="315" BlurRadius="10" ShadowDepth="5"/>
+
+
+        <!-- Define the General Background Color  -->
+        <SolidColorBrush x:Key="GeneralBackgroundColor" Color="LightSteelBlue"/>
+
+        <SolidColorBrush x:Key="PageBackgroundBrus" Color="#121212"/>
+        
+        <!-- Define Scroll Bar Color  -->
+        <Style x:Key="CustomScrollBar" TargetType="ScrollBar">
+            <!-- Dimensiones del ScrollBar -->
+            <Setter Property="Width" Value="1"/>
+            <Setter Property="Height" Value="auto"/>
+
+            <!-- Plantilla personalizada -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid>
+                            <!-- Pista (Track) -->
+                            <Track Name="PART_Track" IsEnabled="{TemplateBinding IsEnabled}">
+
+
+                                <!-- Área del track -->
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="Black" CornerRadius="4" Width="2" BorderBrush="Transparent" />
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+
+                                <!-- Botones de incremento (invisibles) -->
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+        <!-- Estilo para el TextBox con bordes redondeados -->
+        <Style x:Key="RoundedTextBox" TargetType="TextBox">
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="MaxHeight" Value="400" />
+            <Setter Property="MinWidth" Value="40" />
+            <Setter Property="MaxWidth" Value="1000" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0,20,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <!-- Aquí está el borde con el CornerRadius -->
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="20">
+                            <!-- El contenido del TextBox va aquí -->
+                            <ScrollViewer Margin="5" x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo para el Boton con bordes redondeados -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Background" Value="RoyalBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="RoyalBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                       BorderBrush="{TemplateBinding BorderBrush}" 
+                       BorderThickness="{TemplateBinding BorderThickness}" 
+                       CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Hover effect (scale the button when hovered) -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DodgerBlue"/>
+                                <Setter Property="BorderBrush" Value="DodgerBlue"/>
+                            </Trigger>
+
+                            <!-- Pressed effect (darken button color when clicked) -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="RoyalBlue"/>
+                                <Setter Property="BorderBrush" Value="RoyalBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+        <!-- Custom ComboBox Style -->
+        <Style x:Key="ComboBox" TargetType="ComboBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Border CornerRadius="15" 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <!-- Toggle Button for the dropdown -->
+                                <ToggleButton Name="ToggleButton" 
+                                      Focusable="True"
+                                      Background="Transparent" 
+                                      BorderBrush="Transparent" 
+                                      Grid.Column="2" 
+                                      IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" 
+                                      ClickMode="Press">
+                                    <Path x:Name="ArrowPath" 
+                                  Fill="Black" 
+                                  Data="M 0 0 L 4 4 L 8 0 Z" 
+                                  HorizontalAlignment="Right" 
+                                  VerticalAlignment="Center" Visibility="Hidden"/>
+                                </ToggleButton>
+
+                                <!-- Selected Item Content -->
+                                <ContentPresenter Name="ContentSite" 
+                                          IsHitTestVisible="False" 
+                                          Content="{TemplateBinding SelectionBoxItem}" 
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                                          Margin="10,0,25,0" 
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Center" />
+
+                                <!-- Dropdown Popup -->
+                                <Popup Name="Popup" 
+                               Placement="Bottom" 
+                               IsOpen="{TemplateBinding IsDropDownOpen}" 
+                               AllowsTransparency="True" 
+                               Focusable="False" 
+                               PopupAnimation="Slide">
+                                    <Border Name="DropDownBorder" 
+                                    Background="#F0F0F0" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="1" 
+                                    CornerRadius="15">
+                                        <ScrollViewer Margin="4,6" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" 
+                                                KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Disable toggle button when ComboBox is disabled -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ToggleButton" Property="Foreground" Value="Gray" />
+                            </Trigger>
+                            <!-- Hide the arrow when an item is selected -->
+                            <Trigger Property="SelectedIndex" Value="-1">
+                                <Setter TargetName="ArrowPath" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D3D3D3"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+
+
+
+        <!-- Custom Style for Rounded ProgressBar -->
+        <!-- Custom Style for Rounded ProgressBar -->
+        <Style TargetType="ProgressBar" x:Key="RoundedProgressBarStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <Grid>
+                                <ProgressBar x:Name="LoadingProgressBar" 
+          HorizontalAlignment="Center" 
+          VerticalAlignment="Top" 
+          Width="200" 
+          Height="20" 
+          IsIndeterminate="False" 
+          Margin="0,205,0,0"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
+
+
+
+
+
+    </Application.Resources>
+</Application>
