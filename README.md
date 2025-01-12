@@ -6,7 +6,7 @@ y lo que deseas ver o jugar en el futuro.
 
 Objetivos del Proyecto:
 
--Mejorar Mis Habilidades de Desarrollo de Software:
+- Mejorar Mis Habilidades de Desarrollo de Software:
         A través de MediaVault, estoy adquiriendo habilidades en el desarrollo de aplicaciones 
         WPF utilizando tecnologías visual studio.
 
@@ -16,17 +16,15 @@ Objetivos del Proyecto:
         las watchlists (listas de pendientes). Con esta base de datos, los usuarios pueden agregar,
         actualizar y eliminar elementos fácilmente, mientras mantienen sus datos de manera eficiente.
 
-    Desarrollo de Funcionalidades de Búsqueda y Filtros:
-        He implementado un sistema de búsqueda avanzada en el que los usuarios pueden filtrar sus medios por género, estado de progreso y otras categorías, todo almacenado y gestionado dentro de la base de datos SQLite.
 
-    Mejora en Diseño de Interfaces (UI/UX):
-        Estoy trabajando en el diseño de una interfaz atractiva e intuitiva para asegurar que la experiencia del usuario sea lo más fluida y agradable posible. Los usuarios podrán navegar fácilmente por sus listas personalizadas y realizar búsquedas de manera eficiente.
+- Mejora en Diseño de Interfaces (UI/UX):
+       Estoy trabajando en el diseño de una interfaz atractiva e intuitiva para asegurar que la experiencia del usuario
+       sea lo más fluida y agradable posible. Los usuarios podrán navegar fácilmente por sus listas personalizadas y realizar búsquedas de manera eficiente.
 
-    Sincronización de Datos (Futuro):
-        Aunque SQLite es una base de datos local, estoy planeando agregar funcionalidades para sincronizar los datos con la nube utilizando tecnologías como Firebase. Esto permitirá a los usuarios mantener su progreso y datos disponibles en varios dispositivos.
+- Sincronización de Datos (Futuro):
+        Aunque SQLite es una base de datos local, estoy planeando agregar funcionalidades para sincronizar los datos con la nube.
+        Esto permitirá a los usuarios mantener su progreso y datos disponibles en varios dispositivos y ampliar funcionalidades.
 
-    Control de Versiones con Git y GitHub:
-        Utilizo Git y GitHub para gestionar el código fuente del proyecto, lo que me permite controlar las versiones de la app y mantener un registro organizado de los cambios realizados durante el desarrollo.
-
-    Desarrollo Profesional y Autonomía:
-        Este proyecto me está ayudando a mejorar mi autonomía profesional, ya que estoy tomando todas las decisiones relacionadas con el diseño y desarrollo de la aplicación. Además, me permite crear una herramienta útil que puedo compartir en mi portafolio.
+- Desarrollo Profesional y Autonomía:
+        Este proyecto me está ayudando a mejorar mi autonomía profesional, ya que estoy tomando todas las
+       decisiones relacionadas con el diseño y desarrollo de la aplicación. Además, me permite crear una herramienta útil que puedo compartir en mi portafolio.
